@@ -7,7 +7,7 @@ type Action =
   | { type: 'assign'; payload: { memberId: string; teamId: string } }
   | { type: 'addFeedback'; payload: { targetType: Feedback['targetType']; targetId: string; content: string } }
 
-const initialState: AppState = { members: [], teams: [], feedbacks: [] }
+export const initialState: AppState = { members: [], teams: [], feedbacks: [] }
 
 function reducer(state: AppState, action: Action): AppState {
   if (action.type === 'addMember') {
@@ -37,8 +37,8 @@ function reducer(state: AppState, action: Action): AppState {
 const StateContext = createContext<AppState | undefined>(undefined)
 const DispatchContext = createContext<React.Dispatch<Action> | undefined>(undefined)
 
-export function StoreProvider({ children }: { children: ReactNode }) {
-  const [state, dispatch] = useReducer(reducer, initialState)
+export function StoreProvider({ children, initial }: { children: ReactNode; initial?: AppState }) {
+  const [state, dispatch] = useReducer(reducer, initial ?? initialState)
   const memoState = useMemo(() => state, [state])
   return (
     <StateContext.Provider value={memoState}>
