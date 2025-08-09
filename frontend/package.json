@@ -7,8 +7,9 @@
     "dev": "bunx vite",
     "build": "bunx vite build",
     "preview": "bunx vite preview",
-    "test": "vitest run",
-    "test:ui": "vitest"
+  "test": "vitest run",
+  "test:ui": "vitest",
+  "postinstall": "cp -f ../logo-app.png public/logo-app.png 2>/dev/null || true"
   },
   "dependencies": {
     "react": "^18.3.1",
