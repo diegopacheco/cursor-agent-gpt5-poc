@@ -26,3 +26,7 @@ export type AppState = {
   teams: Team[]
   feedbacks: Feedback[]
 }
+
+export type ApiMember = { id: number; name: string; email: string; pictureUrl?: string }
+export type ApiTeam = { id: number; name: string; logoUrl?: string }
+export type ApiFeedback = { id: number; targetType: 'member' | 'team'; targetId: number; content: string; createdAt: string | number }

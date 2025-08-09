@@ -3,10 +3,12 @@ import { Select } from '../components/Select'
 import { Button } from '../components/Button'
 import { TextArea } from '../components/TextArea'
 import { useActions, useAppState } from '../state/store'
+import { useToast } from '../components/Toast'
 
 export default function FeedbackPage() {
   const { members, teams, feedbacks } = useAppState()
   const { addFeedback } = useActions()
+  const { add } = useToast()
   const [targetType, setTargetType] = useState<'member' | 'team'>('member')
   const [targetId, setTargetId] = useState('')
   const [content, setContent] = useState('')
@@ -17,6 +19,7 @@ export default function FeedbackPage() {
     if (!canSubmit) return
     addFeedback(targetType, targetId, content)
     setContent('')
+    add('success')
   }
 
   const targetName = (id: string) => {
