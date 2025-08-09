@@ -5,3 +5,9 @@ Bug 1: Make sure frontend is working
 logo-app.png is not loading in the header of menu properly.
  ./build-all.sh is not working - some tests failling looks like
 - Also I think all frontend pages when submit to the backend are not properly working.
+- Fix this:  Test Files  5 failed (5)
+      Tests  5 failed (5)
+   Start at  16:51:54
+   Duration  7.05s (transform 1.16s, setup 2.36s, collect 3.91s, tests 1.93s, environment 14.90s, prepare 3.63s)
+
+Frontend tests failed

@@ -10,7 +10,6 @@ export function renderWithProviders(ui: React.ReactElement, init?: Partial<AppSt
   function Wrapper({ children }: { children: ReactNode }) {
     return (
       <StoreProvider initial={state}>
-        <BrowserRouter>{children}</BrowserRouter>
         <ToastProvider>
           <BrowserRouter>{children}</BrowserRouter>
         </ToastProvider>
