@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { render } from '@testing-library/react'
 import { StoreProvider, initialState } from '../state/store'
+import { ToastProvider } from '../components/Toast'
 import type { AppState } from '../state/types'
 
 export function renderWithProviders(ui: React.ReactElement, init?: Partial<AppState>) {
@@ -10,6 +11,9 @@ export function renderWithProviders(ui: React.ReactElement, init?: Partial<AppSt
     return (
       <StoreProvider initial={state}>
         <BrowserRouter>{children}</BrowserRouter>
+        <ToastProvider>
+          <BrowserRouter>{children}</BrowserRouter>
+        </ToastProvider>
       </StoreProvider>
     )
   }
