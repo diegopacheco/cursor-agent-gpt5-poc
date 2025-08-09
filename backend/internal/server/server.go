@@ -117,10 +117,10 @@ func (s *Server) routes() {
 	s.router.POST("/feedback", s.createFeedback)
 	s.router.GET("/feedback", s.listFeedback)
 	ss := s.router.Group("/members")
-	ss.GET(":id/teams", s.memberTeams)
+	ss.GET("/:id/teams", s.memberTeams)
 	ts := s.router.Group("/teams")
-	ts.GET(":id/members", s.teamMembers)
-	ts.DELETE(":id/members/:memberId", s.removeMember)
+	ts.GET("/:id/members", s.teamMembers)
+	ts.DELETE("/:id/members/:memberId", s.removeMember)
 }
 
 func (s *Server) createMember(c *gin.Context) {

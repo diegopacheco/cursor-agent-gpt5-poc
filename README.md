@@ -2,6 +2,17 @@
 
 AI Engineering Agent POC with Cursor and GPT 5.
 
+## Cursor Agent CLI in Action
+
+Cursor Agent CLI <br/>
+<img src="results/cursor-in-action.png" width="600" /> <br/>
+
+Cursor Agent CLI <br/>
+<img src="results/cursor-in-action-2.png" width="600" /> <br/>
+
+Cursor Agent CLI <br/>
+<img src="results/cursor-in-action-3.png" width="600" /> <br/>
+ 
 ### Trade-offs / Experience Analysis
 
 PROS
