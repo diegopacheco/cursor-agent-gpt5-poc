@@ -5,6 +5,8 @@ import AddMemberPage from './pages/AddMemberPage'
 import CreateTeamPage from './pages/CreateTeamPage'
 import AssignPage from './pages/AssignPage'
 import FeedbackPage from './pages/FeedbackPage'
+import AllFeedbackPage from './pages/AllFeedbackPage'
+import ManageTeamPage from './pages/ManageTeamPage'
 
 export default function App() {
   return (
@@ -17,6 +19,8 @@ export default function App() {
           <Route path="/create-team" element={<CreateTeamPage />} />
           <Route path="/assign" element={<AssignPage />} />
           <Route path="/feedback" element={<FeedbackPage />} />
+          <Route path="/feedbacks" element={<AllFeedbackPage />} />
+          <Route path="/manage" element={<ManageTeamPage />} />
         </Routes>
       </div>
     </div>

@@ -1,15 +1,21 @@
 import { createContext, useContext, useMemo, useReducer, ReactNode } from 'react'
-import type { AppState, Member, Team, Feedback } from './types'
+import type { AppState, Member, Team, Feedback, ApiMember, ApiTeam, ApiFeedback } from './types'
+import { api } from '../utils/api'
+import { useEffect } from 'react'
 
 type Action =
   | { type: 'addMember'; payload: { name: string; email: string; pictureUrl?: string } }
   | { type: 'addTeam'; payload: { name: string; logoUrl?: string } }
   | { type: 'assign'; payload: { memberId: string; teamId: string } }
   | { type: 'addFeedback'; payload: { targetType: Feedback['targetType']; targetId: string; content: string } }
+  | { type: 'hydrate'; payload: { members: Member[]; teams: Team[]; feedbacks: Feedback[] } }
 
 export const initialState: AppState = { members: [], teams: [], feedbacks: [] }
 
 function reducer(state: AppState, action: Action): AppState {
+  if (action.type === 'hydrate') {
+    return { ...state, members: action.payload.members, teams: action.payload.teams, feedbacks: action.payload.feedbacks }
+  }
   if (action.type === 'addMember') {
     const id = crypto.randomUUID()
     const member: Member = { id, name: action.payload.name, email: action.payload.email, pictureUrl: action.payload.pictureUrl, teamIds: [] }
@@ -40,6 +46,16 @@ const DispatchContext = createContext<React.Dispatch<Action> | undefined>(undefi
 export function StoreProvider({ children, initial }: { children: ReactNode; initial?: AppState }) {
   const [state, dispatch] = useReducer(reducer, initial ?? initialState)
   const memoState = useMemo(() => state, [state])
+  useEffect(() => {
+    if (initial) return
+    ;(async () => {
+      const [ms, ts, fbs] = await Promise.all([api.getMembers(), api.getTeams(), api.getFeedback()])
+      const members: Member[] = (ms as ApiMember[]).map(m => ({ id: String(m.id), name: m.name, email: m.email, pictureUrl: m.pictureUrl, teamIds: [] }))
+      const teams: Team[] = (ts as ApiTeam[]).map(t => ({ id: String(t.id), name: t.name, logoUrl: t.logoUrl, memberIds: [] }))
+      const feedbacks: Feedback[] = (fbs as ApiFeedback[]).map(f => ({ id: String(f.id), targetType: f.targetType, targetId: String(f.targetId), content: f.content, createdAt: typeof f.createdAt === 'string' ? new Date(f.createdAt).getTime() : f.createdAt }))
+      dispatch({ type: 'hydrate', payload: { members, teams, feedbacks } } as any)
+    })()
+  }, [])
   return (
     <StateContext.Provider value={memoState}>
       <DispatchContext.Provider value={dispatch}>{children}</DispatchContext.Provider>
@@ -64,15 +80,19 @@ export function useActions() {
   return {
     addMember(name: string, email: string, pictureUrl?: string) {
       dispatch({ type: 'addMember', payload: { name: name.trim(), email: email.trim(), pictureUrl: pictureUrl?.trim() } })
+      api.createMember({ name, email, pictureUrl })
     },
     addTeam(name: string, logoUrl?: string) {
       dispatch({ type: 'addTeam', payload: { name: name.trim(), logoUrl: logoUrl?.trim() } })
+      api.createTeam({ name, logoUrl })
     },
     assign(memberId: string, teamId: string) {
       dispatch({ type: 'assign', payload: { memberId, teamId } })
+      api.assign({ memberId, teamId })
     },
     addFeedback(targetType: Feedback['targetType'], targetId: string, content: string) {
       dispatch({ type: 'addFeedback', payload: { targetType, targetId, content } })
+      api.createFeedback({ targetType, targetId, content })
     },
   }
 }

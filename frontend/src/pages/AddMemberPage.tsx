@@ -4,6 +4,7 @@ import { Button } from '../components/Button'
 import { FormSection } from '../components/FormSection'
 import { useActions, useAppState } from '../state/store'
 import { Avatar } from '../components/Avatar'
+import { useToast } from '../components/Toast'
 
 function isEmailValid(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
@@ -12,6 +13,7 @@ function isEmailValid(email: string) {
 export default function AddMemberPage() {
   const { members } = useAppState()
   const { addMember } = useActions()
+  const { add } = useToast()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [pictureUrl, setPictureUrl] = useState('')
@@ -24,6 +26,7 @@ export default function AddMemberPage() {
     setName('')
     setEmail('')
     setPictureUrl('')
+    add('success')
   }
 
   return (

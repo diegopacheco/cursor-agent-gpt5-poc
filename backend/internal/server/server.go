@@ -61,6 +61,17 @@ func New(dsn string) (*Server, error) {
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
 	r.Use(gin.Recovery())
+	r.Use(func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		if c.Request.Method == http.MethodOptions {
+			c.Status(http.StatusNoContent)
+			c.Abort()
+			return
+		}
+		c.Next()
+	})
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		return nil, err
@@ -101,6 +112,7 @@ func (s *Server) routes() {
 	s.router.GET("/members", s.listMembers)
 	s.router.POST("/teams", s.createTeam)
 	s.router.GET("/teams", s.listTeams)
+	s.router.DELETE("/teams/:id", s.deleteTeam)
 	s.router.POST("/assign", s.assignMember)
 	s.router.POST("/feedback", s.createFeedback)
 	s.router.GET("/feedback", s.listFeedback)
@@ -108,6 +120,7 @@ func (s *Server) routes() {
 	ss.GET(":id/teams", s.memberTeams)
 	ts := s.router.Group("/teams")
 	ts.GET(":id/members", s.teamMembers)
+	ts.DELETE(":id/members/:memberId", s.removeMember)
 }
 
 func (s *Server) createMember(c *gin.Context) {
@@ -207,7 +220,17 @@ func (s *Server) createFeedback(c *gin.Context) {
 }
 
 func (s *Server) listFeedback(c *gin.Context) {
-	rows, err := s.db.Query("SELECT id,target_type,target_id,content,created_at FROM feedbacks ORDER BY id DESC")
+	tt := c.Query("targetType")
+	tid := c.Query("targetId")
+	var rows *sql.Rows
+	var err error
+	if tt != "" && tid != "" {
+		rows, err = s.db.Query("SELECT id,target_type,target_id,content,created_at FROM feedbacks WHERE target_type=? AND target_id=? ORDER BY id DESC", tt, tid)
+	} else if tt != "" {
+		rows, err = s.db.Query("SELECT id,target_type,target_id,content,created_at FROM feedbacks WHERE target_type=? ORDER BY id DESC", tt)
+	} else {
+		rows, err = s.db.Query("SELECT id,target_type,target_id,content,created_at FROM feedbacks ORDER BY id DESC")
+	}
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "db"})
 		return
@@ -263,4 +286,39 @@ func (s *Server) teamMembers(c *gin.Context) {
 		out = append(out, m)
 	}
 	c.JSON(http.StatusOK, out)
+}
+
+func (s *Server) removeMember(c *gin.Context) {
+	teamID := c.Param("id")
+	memberID := c.Param("memberId")
+	_, err := s.db.Exec("DELETE FROM team_members WHERE team_id=? AND member_id=?", teamID, memberID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "db"})
+		return
+	}
+	c.Status(http.StatusNoContent)
+}
+
+func (s *Server) deleteTeam(c *gin.Context) {
+	id := c.Param("id")
+	tx, err := s.db.Begin()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "db"})
+		return
+	}
+	if _, err := tx.Exec("DELETE FROM team_members WHERE team_id=?", id); err != nil {
+		tx.Rollback()
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "db"})
+		return
+	}
+	if _, err := tx.Exec("DELETE FROM teams WHERE id=?", id); err != nil {
+		tx.Rollback()
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "db"})
+		return
+	}
+	if err := tx.Commit(); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "db"})
+		return
+	}
+	c.Status(http.StatusNoContent)
 }

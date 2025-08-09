@@ -3,10 +3,12 @@ import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 import { FormSection } from '../components/FormSection'
 import { useActions, useAppState } from '../state/store'
+import { useToast } from '../components/Toast'
 
 export default function CreateTeamPage() {
   const { teams } = useAppState()
   const { addTeam } = useActions()
+  const { add } = useToast()
   const [name, setName] = useState('')
   const [logoUrl, setLogoUrl] = useState('')
 
@@ -17,6 +19,7 @@ export default function CreateTeamPage() {
     addTeam(name, logoUrl || undefined)
     setName('')
     setLogoUrl('')
+    add('success')
   }
 
   return (

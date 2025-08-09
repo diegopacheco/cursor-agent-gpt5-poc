@@ -3,10 +3,12 @@ import { Select } from '../components/Select'
 import { Button } from '../components/Button'
 import { useActions, useAppState } from '../state/store'
 import { Avatar } from '../components/Avatar'
+import { useToast } from '../components/Toast'
 
 export default function AssignPage() {
   const { members, teams } = useAppState()
   const { assign } = useActions()
+  const { add } = useToast()
   const [memberId, setMemberId] = useState('')
   const [teamId, setTeamId] = useState('')
 
@@ -17,6 +19,7 @@ export default function AssignPage() {
     assign(memberId, teamId)
     setMemberId('')
     setTeamId('')
+    add('success')
   }
 
   return (
