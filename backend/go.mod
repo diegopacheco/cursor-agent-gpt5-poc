@@ -3,6 +3,7 @@ module github.com/diegopacheco/cursor-agent-gpt5-poc/backend
 go 1.22.0
 
 require (
+	github.com/DATA-DOG/go-sqlmock v1.5.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-sql-driver/mysql v1.8.1
 )
