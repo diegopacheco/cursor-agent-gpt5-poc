@@ -7,7 +7,7 @@ export function Input({ label, right, ...rest }: Props) {
     <div className="col">
       {label && <span className="label">{label}</span>}
       <div className="row" style={{ gap: 8 }}>
-        <input {...rest} className="input" />
+        <input {...rest} className="input" aria-label={label} />
         {right}
       </div>
     </div>

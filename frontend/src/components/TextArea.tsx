@@ -6,7 +6,7 @@ export function TextArea({ label, ...rest }: Props) {
   return (
     <div className="col">
       {label && <span className="label">{label}</span>}
-      <textarea {...rest} className="textarea" />
+      <textarea {...rest} className="textarea" aria-label={label} />
     </div>
   )
 }
