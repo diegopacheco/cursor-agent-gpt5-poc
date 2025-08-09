@@ -4,13 +4,13 @@ AI Engineering Agent POC with Cursor and GPT 5.
 
 ## Cursor Agent CLI in Action
 
-Cursor Agent CLI <br/>
+Cursor Agent CLI 1 <br/>
 <img src="results/cursor-in-action.png" width="600" /> <br/>
 
-Cursor Agent CLI <br/>
+Cursor Agent CLI 2 <br/>
 <img src="results/cursor-in-action-2.png" width="600" /> <br/>
 
-Cursor Agent CLI <br/>
+Cursor Agent CLI 3 <br/>
 <img src="results/cursor-in-action-3.png" width="600" /> <br/>
  
 ### Trade-offs / Experience Analysis
@@ -87,3 +87,4 @@ This starts MySQL, backend on 8080, and frontend on 5173.
 * Sketch POC: https://github.com/diegopacheco/sketch-dev-poc
 * Augument Code POC: https://github.com/diegopacheco/augmentcode-poc
 * Opencode POC: https://github.com/diegopacheco/opencode-poc
+* Claude Code POC: https://github.com/diegopacheco/claude-code-poc
