@@ -1,5 +1,21 @@
 ## Coaching App
 
+AI Engineering Agent POC with Cursor and GPT 5.
+
+### Trade-offs / Experience Analysis
+
+PROS
+ * IT works
+ * IT has reasonable speed
+ * IMHO much better the cursor on vscode
+
+CONS
+* It run out of GPT-5 tokens in less than 1h
+* It forget to open prs
+* It forget to add prompt to prs
+* IT created some bugs
+* I did not like the code in Go, found it messy
+
 ### Stack
 - Frontend: Bun + Vite + React + TypeScript
 - Backend: Go + Gin + MySQL
@@ -46,15 +62,17 @@ This starts MySQL, backend on 8080, and frontend on 5173.
   - GET `/feedback?targetType=member|team&targetId=ID`
 
 ### Troubleshooting
+
 - Frontend cannot reach API in dev: set `VITE_API_URL=http://localhost:8080` and restart `bunx vite`.
 - Compose cold start: the backend waits for MySQL health; first boot can take ~10-20s while MySQL initializes schema.
 - Port conflicts: change `PORT` for backend or remap compose ports.
 
 ### Related POCs
-- OpenAI Codex POC `https://github.com/diegopacheco/codex-poc`
-- Google Jules `https://github.com/diegopacheco/google-jules-poc`
-- Cursor POC `https://github.com/diegopacheco/docker-cleanup`
-- Gemini-cli POC: `https://github.com/diegopacheco/gemini-cli-poc`
-- Sketch POC: `https://github.com/diegopacheco/sketch-dev-poc`
-- Augument Code POC: `https://github.com/diegopacheco/augmentcode-poc`
-- Opencode POC: `https://github.com/diegopacheco/opencode-poc`
+
+* OpenAI Codex POC https://github.com/diegopacheco/codex-poc
+* Google Jules https://github.com/diegopacheco/google-jules-poc
+* Cursor POC https://github.com/diegopacheco/docker-cleanup
+* Gemini-cli POC: https://github.com/diegopacheco/gemini-cli-poc
+* Sketch POC: https://github.com/diegopacheco/sketch-dev-poc
+* Augument Code POC: https://github.com/diegopacheco/augmentcode-poc
+* Opencode POC: https://github.com/diegopacheco/opencode-poc
