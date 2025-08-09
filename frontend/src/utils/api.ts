@@ -19,7 +19,10 @@ export const api = {
   async deleteTeam(id: string | number) { return j<void>(await fetch(`${base}/teams/${id}`, { method: 'DELETE' })) },
   async getTeamMembers(teamId: string | number) { return j<any[]>(await fetch(`${base}/teams/${teamId}/members`)) },
   async removeTeamMember(teamId: string | number, memberId: string | number) { return j<void>(await fetch(`${base}/teams/${teamId}/members/${memberId}`, { method: 'DELETE' })) },
-  async assign(body: { memberId: string | number; teamId: string | number }) { return j<void>(await fetch(`${base}/assign`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })) },
+  async assign(body: { memberId: string | number; teamId: string | number }) {
+    const payload = { memberId: Number(body.memberId), teamId: Number(body.teamId) }
+    return j<void>(await fetch(`${base}/assign`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }))
+  },
   async getFeedback(params?: { targetType?: string; targetId?: string | number }) {
     const q: string[] = []
     if (params?.targetType) q.push(`targetType=${encodeURIComponent(params.targetType)}`)
@@ -27,5 +30,8 @@ export const api = {
     const qs = q.length ? `?${q.join('&')}` : ''
     return j<any[]>(await fetch(`${base}/feedback${qs}`))
   },
-  async createFeedback(body: { targetType: 'member' | 'team'; targetId: string | number; content: string }) { return j<void>(await fetch(`${base}/feedback`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })) },
+  async createFeedback(body: { targetType: 'member' | 'team'; targetId: string | number; content: string }) {
+    const payload = { targetType: body.targetType, targetId: Number(body.targetId), content: body.content }
+    return j<void>(await fetch(`${base}/feedback`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }))
+  },
 }
