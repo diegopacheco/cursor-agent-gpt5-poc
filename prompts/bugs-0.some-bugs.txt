@@ -1,0 +1,54 @@
+Fix all this bugs:
+
+bug 01: there is no stop script.
+
+bug 02: readme.md is poorly written, add the endpoints of the backend.
+
+bug 03: all feedback pages has bugs and does not open:
+
+Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+index-80oR-cmb.js:67 Uncaught (in promise) TypeError: Cannot read properties of null (reading 'map')
+    at index-80oR-cmb.js:67:7792Understand this error
+favicon.ico:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+:8080/assign:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)Understand this error
+index-80oR-cmb.js:67 Uncaught (in promise) Error: http 400
+    at $e (index-80oR-cmb.js:67:5227)
+    at Object.assign (index-80oR-cmb.js:67:5989)Understand this error
+:8080/feedback:1 
+            
+            
+           Failed to load resource: the server responded with a status of 400 (Bad Request)Understand this error
+index-80oR-cmb.js:67 Uncaught (in promise) Error: http 400
+    at $e (index-80oR-cmb.js:67:5227)
+    at Object.createFeedback (index-80oR-cmb.js:67:6414)Understand this error
+hook.js:608 TypeError: Cannot read properties of null (reading 'map')
+    at th (index-80oR-cmb.js:67:20222)
+    at Zo (index-80oR-cmb.js:38:16959)
+    at eo (index-80oR-cmb.js:40:3134)
+    at Fc (index-80oR-cmb.js:40:44503)
+    at Ic (index-80oR-cmb.js:40:39531)
+    at Cp (index-80oR-cmb.js:40:39462)
+    at wl (index-80oR-cmb.js:40:39320)
+    at fo (index-80oR-cmb.js:40:35737)
+    at Lc (index-80oR-cmb.js:40:34693)
+    at C (index-80oR-cmb.js:25:1562)
+overrideMethod @ hook.js:608Understand this error
+index-80oR-cmb.js:40 Uncaught TypeError: Cannot read properties of null (reading 'map')
+    at th (index-80oR-cmb.js:67:20222)
+    at Zo (index-80oR-cmb.js:38:16959)
+    at eo (index-80oR-cmb.js:40:3134)
+    at Fc (index-80oR-cmb.js:40:44503)
+    at Ic (index-80oR-cmb.js:40:39531)
+    at Cp (index-80oR-cmb.js:40:39462)
+    at wl (index-80oR-cmb.js:40:39320)
+    at fo (index-80oR-cmb.js:40:35737)
+    at Lc (index-80oR-cmb.js:40:34693)
+    at C (index-80oR-cmb.js:25:1562)Understand this error
+
+    
