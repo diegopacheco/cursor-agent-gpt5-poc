@@ -5,7 +5,9 @@ import { useEffect } from 'react'
 
 type Action =
   | { type: 'addMember'; payload: { name: string; email: string; pictureUrl?: string } }
+  | { type: 'addMemberWithId'; payload: { id: string; name: string; email: string; pictureUrl?: string } }
   | { type: 'addTeam'; payload: { name: string; logoUrl?: string } }
+  | { type: 'addTeamWithId'; payload: { id: string; name: string; logoUrl?: string } }
   | { type: 'assign'; payload: { memberId: string; teamId: string } }
   | { type: 'addFeedback'; payload: { targetType: Feedback['targetType']; targetId: string; content: string } }
   | { type: 'hydrate'; payload: { members: Member[]; teams: Team[]; feedbacks: Feedback[] } }
@@ -21,9 +23,17 @@ function reducer(state: AppState, action: Action): AppState {
     const member: Member = { id, name: action.payload.name, email: action.payload.email, pictureUrl: action.payload.pictureUrl, teamIds: [] }
     return { ...state, members: [member, ...state.members] }
   }
+  if (action.type === 'addMemberWithId') {
+    const member: Member = { id: action.payload.id, name: action.payload.name, email: action.payload.email, pictureUrl: action.payload.pictureUrl, teamIds: [] }
+    return { ...state, members: [member, ...state.members] }
+  }
   if (action.type === 'addTeam') {
     const id = crypto.randomUUID()
     const team: Team = { id, name: action.payload.name, logoUrl: action.payload.logoUrl, memberIds: [] }
+    return { ...state, teams: [team, ...state.teams] }
+  }
+  if (action.type === 'addTeamWithId') {
+    const team: Team = { id: action.payload.id, name: action.payload.name, logoUrl: action.payload.logoUrl, memberIds: [] }
     return { ...state, teams: [team, ...state.teams] }
   }
   if (action.type === 'assign') {
@@ -78,21 +88,23 @@ export function useAppDispatch() {
 export function useActions() {
   const dispatch = useAppDispatch()
   return {
-    addMember(name: string, email: string, pictureUrl?: string) {
-      dispatch({ type: 'addMember', payload: { name: name.trim(), email: email.trim(), pictureUrl: pictureUrl?.trim() } })
-      api.createMember({ name, email, pictureUrl })
+    async addMember(name: string, email: string, pictureUrl?: string) {
+      const res = await api.createMember({ name, email, pictureUrl })
+      const id = String(res.id)
+      dispatch({ type: 'addMemberWithId', payload: { id, name: name.trim(), email: email.trim(), pictureUrl: pictureUrl?.trim() } })
     },
-    addTeam(name: string, logoUrl?: string) {
-      dispatch({ type: 'addTeam', payload: { name: name.trim(), logoUrl: logoUrl?.trim() } })
-      api.createTeam({ name, logoUrl })
+    async addTeam(name: string, logoUrl?: string) {
+      const res = await api.createTeam({ name, logoUrl })
+      const id = String(res.id)
+      dispatch({ type: 'addTeamWithId', payload: { id, name: name.trim(), logoUrl: logoUrl?.trim() } })
     },
-    assign(memberId: string, teamId: string) {
+    async assign(memberId: string, teamId: string) {
+      await api.assign({ memberId, teamId })
       dispatch({ type: 'assign', payload: { memberId, teamId } })
-      api.assign({ memberId, teamId })
     },
-    addFeedback(targetType: Feedback['targetType'], targetId: string, content: string) {
+    async addFeedback(targetType: Feedback['targetType'], targetId: string, content: string) {
+      await api.createFeedback({ targetType, targetId, content })
       dispatch({ type: 'addFeedback', payload: { targetType, targetId, content } })
-      api.createFeedback({ targetType, targetId, content })
     },
   }
 }

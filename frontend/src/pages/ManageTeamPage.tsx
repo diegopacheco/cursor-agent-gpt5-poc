@@ -10,7 +10,7 @@ export default function ManageTeamPage() {
     const ts = await api.getTeams()
     setTeams(ts)
     const map: Record<string, any[]> = {}
-    for (const t of ts) map[t.id] = await api.getTeamMembers(t.id)
+    for (const t of ts) map[t.id] = await api.getTeamMembers(t.id) || []
     setMembersByTeam(map)
   }
 

@@ -10,7 +10,7 @@ export default function AllFeedbackPage() {
   const [teams, setTeams] = useState<any[]>([])
 
   useEffect(() => { (async () => { setMembers(await api.getMembers()); setTeams(await api.getTeams()) })() }, [])
-  useEffect(() => { (async () => { setItems(await api.getFeedback(targetType ? { targetType, targetId: targetId || undefined } : undefined)) })() }, [targetType, targetId])
+  useEffect(() => { (async () => { setItems(await api.getFeedback(targetType ? { targetType, targetId: targetId || undefined } : undefined) || []) })() }, [targetType, targetId])
 
   const targets = useMemo(() => targetType === 'member' ? members : targetType === 'team' ? teams : [], [targetType, members, teams])
 
