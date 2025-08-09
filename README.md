@@ -45,6 +45,11 @@ This starts MySQL, backend on 8080, and frontend on 5173.
   - POST `/feedback` { targetType: member|team, targetId, content }
   - GET `/feedback?targetType=member|team&targetId=ID`
 
+### Troubleshooting
+- Frontend cannot reach API in dev: set `VITE_API_URL=http://localhost:8080` and restart `bunx vite`.
+- Compose cold start: the backend waits for MySQL health; first boot can take ~10-20s while MySQL initializes schema.
+- Port conflicts: change `PORT` for backend or remap compose ports.
+
 ### Related POCs
 - OpenAI Codex POC `https://github.com/diegopacheco/codex-poc`
 - Google Jules `https://github.com/diegopacheco/google-jules-poc`
