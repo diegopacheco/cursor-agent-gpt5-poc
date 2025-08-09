@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "bunx vite",
     "build": "bunx vite build",
-    "preview": "bunx vite preview"
+    "preview": "bunx vite preview",
+    "test": "vitest run",
+    "test:ui": "vitest"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -17,6 +19,10 @@
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.7.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "jsdom": "^25.0.1",
+    "vitest": "^2.1.4",
     "typescript": "^5.6.2",
     "vite": "^5.4.2"
   }
