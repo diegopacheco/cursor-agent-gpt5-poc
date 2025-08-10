@@ -26,6 +26,30 @@ CONS
 * It forget to add prompt to prs
 * IT created some bugs
 * I did not like the code in Go, found it messy
+* I did not like the readme
+
+## Result APP
+
+Home <br/>
+<img src="results/coaching-app-result-1.png"  width="600" />  <br/>
+
+Add Member <br/>
+<img src="results/coaching-app-result-2.png"  width="600" />  <br/>
+
+Create Team <br/>
+<img src="results/coaching-app-result-3.png"  width="600" />  <br/>
+
+Assign <br/>
+<img src="results/coaching-app-result-4.png"  width="600" />  <br/>
+
+Feedback <br/>
+<img src="results/coaching-app-result-5.png"  width="600" />  <br/>
+
+Manage <br/>
+<img src="results/coaching-app-result-6.png"  width="600" />  <br/>
+
+All Feedback <br/>
+<img src="results/coaching-app-result-7.png"  width="600" />  <br/>
 
 ### Stack
 - Frontend: Bun + Vite + React + TypeScript
