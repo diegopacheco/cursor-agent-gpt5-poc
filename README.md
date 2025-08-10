@@ -19,6 +19,7 @@ PROS
  * IT works
  * IT has reasonable speed
  * IMHO much better the cursor on vscode
+ * COST nothing since I used the cursor free 
 
 CONS
 * It run out of GPT-5 tokens in less than 1h
